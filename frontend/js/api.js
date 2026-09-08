@@ -1,3 +1,4 @@
+//backend API URL
 const API_BASE_URL = "http://localhost:8000";
 
 function saveToken(token) { localStorage.setItem("hms_token", token); }
