@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-ink: #1B2430;
+  --color-surface: #F7F8F6;
+  --color-primary: #1F7A6C;
+  --color-danger: #C1553D;
+  --color-border: #D8DCD9;
+  --font-main: 'IBM Plex Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-main);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.auth-card h1 { font-size: 1.4rem; margin-bottom: 1.5rem; font-weight: 600; }
+
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-size: 0.85rem; margin-bottom: 0.35rem; color: #4A5568; }
+.field input, .field select {
+  width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--color-border);
+  border-radius: 4px; font-family: var(--font-main); font-size: 0.95rem;
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--color-primary); }
+
+.btn-primary {
+  width: 100%; padding: 0.7rem; background: var(--color-primary); color: #fff;
+  border: none; border-radius: 4px; font-family: var(--font-main);
+  font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem;
+}
+.btn-primary:hover { opacity: 0.9; }
+
+.error-message {
+  background: #FBEAE6; color: var(--color-danger); padding: 0.6rem 0.75rem;
+  border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; display: none;
+}
+
+.switch-link { text-align: center; margin-top: 1.25rem; font-size: 0.85rem; color: #4A5568; }
+.switch-link a { color: var(--color-primary); text-decoration: none; }
