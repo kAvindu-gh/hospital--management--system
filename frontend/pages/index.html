@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - HMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { display: block; padding: 2rem; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .btn-secondary {
+      padding: 0.5rem 1rem; background: transparent; border: 1px solid var(--color-border);
+      border-radius: 4px; cursor: pointer; font-family: var(--font-main);
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <h1 id="welcome-msg">Loading...</h1>
+    <button class="btn-secondary" onclick="handleLogout()">Logout</button>
+  </div>
+  <p>Placeholder dashboard — real modules (Patients, Appointments, etc.) get built here next.</p>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    async function loadCurrentUser() {
+      if (!getToken()) { window.location.href = "login.html"; return; }
+      const response = await apiFetch("/auth/me");
+      if (!response.ok) { clearToken(); window.location.href = "login.html"; return; }
+      const user = await response.json();
+      document.getElementById("welcome-msg").textContent = `Welcome, ${user.username} (${user.role})`;
+    }
+    loadCurrentUser();
+  </script>
+</body>
+</html>
