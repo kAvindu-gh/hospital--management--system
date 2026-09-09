@@ -6,6 +6,7 @@ from app import models  # noqa: F401 — ensures all models register before crea
 from app.routers import auth_routes
 from app.routers import auth_routes, patient_routes
 from app.routers import auth_routes, patient_routes, doctor_routes, appointment_routes
+from app.routers import auth_routes, patient_routes, doctor_routes, appointment_routes, user_routes
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,6 +24,7 @@ app.include_router(auth_routes.router)
 app.include_router(patient_routes.router)
 app.include_router(doctor_routes.router)
 app.include_router(appointment_routes.router)
+app.include_router(user_routes.router)
 
 
 @app.get("/")
