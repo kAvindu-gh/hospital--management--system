@@ -45,6 +45,7 @@ async function handleLogin(event) {
 }
 
 function handleLogout() {
+  if (!confirm("Do you want to logout?")) return;
   clearToken();
   window.location.href = "login.html";
 }

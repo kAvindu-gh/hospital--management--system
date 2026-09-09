@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctors - HMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">HMS</div>
+      <nav id="sidebar-nav"></nav>
+    </aside>
+    <main class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="back-btn" onclick="history.back()" aria-label="Go back">←</button>
+          <h1>Doctors</h1>
+        </div>
+        <div class="user-chip">
+          <span id="user-chip-text">Loading...</span>
+          <button class="btn-secondary" id="logout-btn">Logout</button>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px; background: #fff; border: 1px solid var(--color-border); border-radius: 4px; padding: 1.5rem;">
+          <h2 style="font-size: 1rem; margin-bottom: 1rem;">Add Department</h2>
+          <form id="department-form">
+            <div class="field"><label for="new_department_name">Name</label><input type="text" id="new_department_name" required></div>
+            <button type="submit" class="btn-primary">Add Department</button>
+          </form>
+          <ul id="department-list" style="margin-top: 1rem; font-size: 0.88rem; color: #4A5568; list-style: none;"></ul>
+        </div>
+
+        <div style="flex: 2; min-width: 320px; background: #fff; border: 1px solid var(--color-border); border-radius: 4px; padding: 1.5rem;">
+          <h2 style="font-size: 1rem; margin-bottom: 1rem;">Add Doctor Profile</h2>
+          <form id="doctor-form">
+            <div class="field"><label for="user_id">Doctor Account</label><select id="user_id" required></select></div>
+            <div class="field"><label for="doctor_full_name">Full Name</label><input type="text" id="doctor_full_name" required></div>
+            <div class="field"><label for="specialization">Specialization</label><input type="text" id="specialization"></div>
+            <div class="field"><label for="department_id">Department</label><select id="department_id"></select></div>
+            <button type="submit" class="btn-primary">Add Doctor</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Specialization</th><th>Department</th><th>Actions</th></tr></thead>
+          <tbody id="doctors-tbody"><tr><td colspan="4" class="empty-state">Loading doctors...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/doctors.js"></script>
+</body>
+</html>

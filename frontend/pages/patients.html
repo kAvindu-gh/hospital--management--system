@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patients - HMS</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -9,17 +10,17 @@
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">HMS</div>
-      <nav>
-        <a href="index.html">Dashboard</a>
-        <a href="patients.html" class="active">Patients</a>
-      </nav>
+      <nav id="sidebar-nav"></nav>
     </aside>
     <main class="main-content">
       <div class="topbar">
+      <div class="topbar-left">
+        <button class="back-btn" onclick="history.back()" aria-label="Go back">←</button>
         <h1>Patients</h1>
+      </div>
         <div class="user-chip">
           <span id="user-chip-text">Loading...</span>
-          <button class="btn-secondary" onclick="handleLogout()">Logout</button>
+          <button class="btn-secondary" id="logout-btn">Logout</button>
         </div>
       </div>
 
@@ -28,14 +29,16 @@
         <button class="btn-primary" style="width: auto; margin-top: 0;" onclick="openAddModal()">+ Add Patient</button>
       </div>
 
-      <table class="data-table">
-        <thead>
-          <tr><th>Name</th><th>Date of Birth</th><th>Gender</th><th>Phone</th><th>Address</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="patients-tbody">
-          <tr><td colspan="6" class="empty-state">Loading patients...</td></tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>Date of Birth</th><th>Gender</th><th>Phone</th><th>Address</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="patients-tbody">
+            <tr><td colspan="6" class="empty-state">Loading patients...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </main>
   </div>
 
@@ -76,6 +79,7 @@
 
   <script src="../js/api.js"></script>
   <script src="../js/auth.js"></script>
+  <script src="../js/layout.js"></script>
   <script src="../js/patients.js"></script>
 </body>
 </html>
