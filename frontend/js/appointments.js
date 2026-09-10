@@ -1,3 +1,5 @@
+let reschedulingAppointmentId = null;
+
 async function loadDropdownData() {
   const [patientsRes, doctorsRes] = await Promise.all([apiFetch("/patients/"), apiFetch("/doctors/")]);
   const patients = patientsRes.ok ? await patientsRes.json() : [];
@@ -25,12 +27,48 @@ async function loadAppointments(statusFilter = "") {
       <td><span class="status-badge status-${a.status}">${a.status}</span></td>
       <td class="actions">
         ${a.status === "scheduled" ? `
+          <button class="link-btn" onclick="openRescheduleModal(${a.id}, '${a.appointment_date}')">Reschedule</button>
           <button class="link-btn" onclick="markStatus(${a.id}, 'completed')">Complete</button>
           <button class="link-btn danger" onclick="markStatus(${a.id}, 'cancelled')">Cancel</button>
         ` : ""}
       </td>
     </tr>
   `).join("");
+}
+
+function toDateTimeLocalValue(value) {
+  const date = new Date(value);
+  const pad = number => String(number).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function openRescheduleModal(id, appointmentDate) {
+  reschedulingAppointmentId = id;
+  document.getElementById("reschedule_date").value = toDateTimeLocalValue(appointmentDate);
+  document.getElementById("reschedule-modal").classList.add("open");
+}
+
+function closeRescheduleModal() {
+  reschedulingAppointmentId = null;
+  document.getElementById("reschedule-modal").classList.remove("open");
+}
+
+async function handleRescheduleSubmit(event) {
+  event.preventDefault();
+  if (reschedulingAppointmentId === null) return;
+
+  const response = await apiFetch(`/appointments/${reschedulingAppointmentId}`, {
+    method: "PUT",
+    body: JSON.stringify({ appointment_date: document.getElementById("reschedule_date").value }),
+  });
+
+  if (response.ok) {
+    closeRescheduleModal();
+    await loadAppointments(document.getElementById("status-filter").value);
+  } else {
+    const data = await response.json();
+    alert(data.detail || "Failed to reschedule appointment.");
+  }
 }
 
 async function markStatus(id, status) {
@@ -67,5 +105,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadDropdownData();
   loadAppointments();
   document.getElementById("booking-form").addEventListener("submit", handleBookingSubmit);
+  document.getElementById("reschedule-form").addEventListener("submit", handleRescheduleSubmit);
   document.getElementById("status-filter").addEventListener("change", (e) => loadAppointments(e.target.value));
 });
