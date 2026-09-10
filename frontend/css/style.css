@@ -256,3 +256,21 @@ body.center-body::before {
 .status-badge.status-cancelled { background: #FBEAE6; color: var(--color-danger); }
 
 .empty-state { padding: 2rem; text-align: center; color: #718096; font-size: 0.9rem; }
+
+/* Updated patient appoinment history view */
+
+.field textarea {
+  width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--color-border);
+  border-radius: var(--radius); font-family: var(--font-main); font-size: 0.95rem;
+  resize: vertical; min-height: 80px;
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+.field textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(31, 122, 108, 0.12); }
+
+.history-heading { margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; }
+.history-item {
+  padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius);
+  margin-bottom: 0.6rem; font-size: 0.85rem;
+}
+.history-item-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: #8A94A0; margin-top: 0.4rem; }
+.history-item p:first-child { margin-top: 0; }

@@ -63,15 +63,29 @@ async function openViewModal(id) {
   if (!response.ok) return;
   const p = await response.json();
 
+  const historyResponse = await apiFetch(`/patients/${id}/history`);
+  const history = historyResponse.ok ? await historyResponse.json() : [];
+
+  const historyHtml = history.length
+    ? history.map(r => `
+        <div class="history-item">
+          <p class="history-item-label">Diagnosis</p>
+          <p>${r.diagnosis || "—"}</p>
+          <p class="history-item-label">Prescription</p>
+          <p>${r.prescription || "—"}</p>
+          ${r.notes ? `<p class="history-item-label">Notes</p><p>${r.notes}</p>` : ""}
+        </div>
+      `).join("")
+    : `<p class="empty-state" style="padding: 1rem 0;">No medical records yet for this patient.</p>`;
+
   document.getElementById("view-body").innerHTML = `
     <p><strong>Name:</strong> ${p.full_name}</p>
     <p><strong>Date of Birth:</strong> ${p.date_of_birth || "—"}</p>
     <p><strong>Gender:</strong> ${p.gender || "—"}</p>
     <p><strong>Phone:</strong> ${p.phone || "—"}</p>
     <p><strong>Address:</strong> ${p.address || "—"}</p>
-    <p style="margin-top: 1rem; color: #718096; font-size: 0.85rem;">
-      Full visit and treatment history will appear here once Appointments and Medical Records are built.
-    </p>
+    <h3 class="history-heading">Medical History</h3>
+    ${historyHtml}
   `;
   document.getElementById("view-modal").classList.add("open");
 }
