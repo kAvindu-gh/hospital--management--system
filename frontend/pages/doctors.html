@@ -52,6 +52,21 @@
           <tbody id="doctors-tbody"><tr><td colspan="4" class="empty-state">Loading doctors...</td></tr></tbody>
         </table>
       </div>
+
+      <div class="modal-overlay" id="doctor-modal">
+        <div class="modal-box">
+          <h2>Edit Doctor</h2>
+          <form id="doctor-edit-form">
+            <div class="field"><label for="edit_doctor_full_name">Full Name</label><input type="text" id="edit_doctor_full_name" required></div>
+            <div class="field"><label for="edit_specialization">Specialization</label><input type="text" id="edit_specialization"></div>
+            <div class="field"><label for="edit_department_id">Department</label><select id="edit_department_id"></select></div>
+            <div class="modal-actions">
+              <button type="button" class="btn-secondary" onclick="closeDoctorModal()">Cancel</button>
+              <button type="submit" class="btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
   </div>
 

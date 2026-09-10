@@ -1,11 +1,17 @@
 let departmentsCache = [];
+let editingDoctorId = null;
 
 async function loadDepartments() {
   const response = await apiFetch("/departments/");
   departmentsCache = response.ok ? await response.json() : [];
 
   document.getElementById("department-list").innerHTML = departmentsCache.length
-    ? departmentsCache.map(d => `<li>${d.name}</li>`).join("")
+    ? departmentsCache.map(d => `
+        <li class="department-item">
+          <span>${d.name}</span>
+          <button type="button" class="link-btn danger" onclick="deleteDepartment(${d.id})">Remove</button>
+        </li>
+      `).join("")
     : `<li class="empty-state">No departments yet.</li>`;
 
   document.getElementById("department_id").innerHTML =
@@ -33,15 +39,85 @@ async function loadDoctors() {
       <td>${d.full_name}</td>
       <td>${d.specialization || "—"}</td>
       <td>${departmentsCache.find(dep => dep.id === d.department_id)?.name || "—"}</td>
-      <td class="actions"><button class="link-btn danger" onclick="deleteDoctor(${d.id})">Delete</button></td>
+      <td class="actions">
+        <button class="link-btn" onclick="openDoctorEditModal(${d.id})">Edit</button>
+        <button class="link-btn danger" onclick="deleteDoctor(${d.id})">Delete</button>
+      </td>
     </tr>
   `).join("");
+}
+
+async function openDoctorEditModal(id) {
+  const response = await apiFetch(`/doctors/${id}`);
+  if (!response.ok) {
+    const data = await response.json();
+    alert(data.detail || "Failed to load doctor details.");
+    return;
+  }
+
+  const doctor = await response.json();
+  editingDoctorId = id;
+  document.getElementById("edit_doctor_full_name").value = doctor.full_name || "";
+  document.getElementById("edit_specialization").value = doctor.specialization || "";
+  document.getElementById("edit_department_id").innerHTML =
+    `<option value="">No department</option>` +
+    departmentsCache.map(d => `<option value="${d.id}">${d.name}</option>`).join("");
+  document.getElementById("edit_department_id").value = doctor.department_id || "";
+  document.getElementById("doctor-modal").classList.add("open");
+}
+
+function closeDoctorModal() {
+  editingDoctorId = null;
+  document.getElementById("doctor-modal").classList.remove("open");
+}
+
+async function handleDoctorEditSubmit(event) {
+  event.preventDefault();
+  if (editingDoctorId === null) return;
+
+  const payload = {
+    full_name: document.getElementById("edit_doctor_full_name").value,
+    specialization: document.getElementById("edit_specialization").value || null,
+    department_id: document.getElementById("edit_department_id").value
+      ? parseInt(document.getElementById("edit_department_id").value)
+      : null,
+  };
+  const response = await apiFetch(`/doctors/${editingDoctorId}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+
+  if (response.ok) {
+    closeDoctorModal();
+    await loadDoctors();
+  } else {
+    const data = await response.json();
+    alert(data.detail || "Failed to update doctor.");
+  }
 }
 
 async function deleteDoctor(id) {
   if (!confirm("Remove this doctor profile?")) return;
   const response = await apiFetch(`/doctors/${id}`, { method: "DELETE" });
-  if (response.ok) loadDoctors();
+  if (response.ok) {
+    await loadDoctors();
+    await loadUnlinkedDoctorUsers();
+  } else {
+    const data = await response.json();
+    alert(data.detail || "Failed to remove doctor.");
+  }
+}
+
+async function deleteDepartment(id) {
+  if (!confirm("Remove this department?")) return;
+  const response = await apiFetch(`/departments/${id}`, { method: "DELETE" });
+  if (response.ok) {
+    await loadDepartments();
+    await loadDoctors();
+  } else {
+    const data = await response.json();
+    alert(data.detail || "Failed to remove department.");
+  }
 }
 
 async function handleDepartmentSubmit(event) {
@@ -79,4 +155,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadDoctors();
   document.getElementById("department-form").addEventListener("submit", handleDepartmentSubmit);
   document.getElementById("doctor-form").addEventListener("submit", handleDoctorSubmit);
+  document.getElementById("doctor-edit-form").addEventListener("submit", handleDoctorEditSubmit);
 });
