@@ -2,22 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - HMS</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="center-body">
   <div class="auth-card">
     <h1>Login</h1>
     <div class="error-message" id="error-message"></div>
     <form id="login-form">
       <div class="field"><label for="username">Username</label><input type="text" id="username" required></div>
-      <div class="field"><label for="password">Password</label><input type="password" id="password" required></div>
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="password-field">
+          <input type="password" id="password" required>
+          <button type="button" class="password-toggle" id="password-toggle" aria-label="Show password" aria-pressed="false"><span class="eye-icon" aria-hidden="true"></span></button>
+        </div>
+      </div>
       <button type="submit" class="btn-primary">Login</button>
     </form>
     <div class="switch-link">Don't have an account? <a href="register.html">Register</a></div>
   </div>
   <script src="../js/api.js"></script>
   <script src="../js/auth.js"></script>
-  <script>document.getElementById("login-form").addEventListener("submit", handleLogin);</script>
+  <script>
+    document.getElementById("login-form").addEventListener("submit", handleLogin);
+    setupPasswordToggle("password", "password-toggle");
+  </script>
 </body>
 </html>

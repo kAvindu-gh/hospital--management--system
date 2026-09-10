@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - HMS</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -9,33 +10,26 @@
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">HMS</div>
-      <nav>
-        <a href="index.html" class="active">Dashboard</a>
-        <a href="patients.html">Patients</a>
-      </nav>
+      <nav id="sidebar-nav"></nav>
     </aside>
     <main class="main-content">
       <div class="topbar">
-        <h1>Dashboard</h1>
+        <div class="topbar-left">
+          <button class="back-btn" onclick="history.back()" aria-label="Go back">←</button>
+          <h1>Dashboard</h1>
+        </div>
         <div class="user-chip">
           <span id="user-chip-text">Loading...</span>
-          <button class="btn-secondary" onclick="handleLogout()">Logout</button>
+          <button class="btn-secondary" id="logout-btn">Logout</button>
         </div>
       </div>
-      <p style="color:#718096;">More widgets (appointments, revenue) will appear here as those modules are built.</p>
+      <p style="color:#718096;">More widgets (appointment counts, revenue) will appear here as those modules mature.</p>
     </main>
   </div>
 
   <script src="../js/api.js"></script>
   <script src="../js/auth.js"></script>
-  <script>
-    (async function () {
-      if (!getToken()) { window.location.href = "login.html"; return; }
-      const response = await apiFetch("/auth/me");
-      if (!response.ok) { clearToken(); window.location.href = "login.html"; return; }
-      const user = await response.json();
-      document.getElementById("user-chip-text").textContent = `${user.username} (${user.role})`;
-    })();
-  </script>
+  <script src="../js/layout.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", () => initLayout("index.html"));</script>
 </body>
 </html>
