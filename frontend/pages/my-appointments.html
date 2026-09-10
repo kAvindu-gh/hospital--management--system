@@ -26,11 +26,27 @@
 
       <div class="table-wrapper">
         <table class="data-table">
-          <thead><tr><th>Patient</th><th>Date & Time</th><th>Reason</th><th>Status</th></tr></thead>
-          <tbody id="my-appointments-tbody"><tr><td colspan="4" class="empty-state">Loading...</td></tr></tbody>
+          <thead><tr><th>Patient</th><th>Date & Time</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="my-appointments-tbody"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody>
         </table>
       </div>
     </main>
+  </div>
+
+  <div class="modal-overlay" id="record-modal">
+    <div class="modal-box">
+      <h2>Medical Record</h2>
+      <p id="record-modal-subtitle" style="color:#718096; font-size:0.85rem; margin-top:-0.75rem; margin-bottom:1.25rem;"></p>
+      <form id="record-form">
+        <div class="field"><label for="diagnosis">Diagnosis</label><textarea id="diagnosis"></textarea></div>
+        <div class="field"><label for="prescription">Prescription</label><textarea id="prescription"></textarea></div>
+        <div class="field"><label for="notes">Notes</label><textarea id="notes"></textarea></div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Save Record</button>
+          <button type="button" class="btn-secondary" onclick="closeRecordModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="../js/api.js"></script>
