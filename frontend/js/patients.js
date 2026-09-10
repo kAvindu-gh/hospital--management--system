@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const meResponse = await apiFetch("/auth/me");
   if (!meResponse.ok) { clearToken(); window.location.href = "login.html"; return; }
   const user = await meResponse.json();
-  document.getElementById("user-chip-text").textContent = `${user.username} (${user.role})`;
+  document.getElementById("user-chip-text").textContent = formatUserChip(user);
 
   loadPatients();
 

@@ -55,6 +55,14 @@ def delete_patient(patient_id: int, db: Session = Depends(get_db)):
     patient = db.query(Patient).filter(Patient.id == patient_id).first()
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
+
+    for appointment in patient.appointments:
+        if appointment.medical_record:
+            db.delete(appointment.medical_record)
+        if appointment.invoice:
+            db.delete(appointment.invoice)
+        db.delete(appointment)
+
     db.delete(patient)
     db.commit()
     return {"detail": "Patient deleted successfully"}

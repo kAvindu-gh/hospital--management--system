@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.session import get_db
-from app.models import Doctor, Department, User, UserRole
+from app.models import AppointmentStatus, Doctor, Department, User, UserRole
 from app.schemas import DoctorCreate, DoctorUpdate, DoctorOut, DepartmentCreate, DepartmentOut
 from app.core.deps import require_role
 
@@ -25,6 +25,19 @@ def create_department(department: DepartmentCreate, db: Session = Depends(get_db
 @router.get("/departments/", response_model=List[DepartmentOut], dependencies=[Depends(require_role("admin", "doctor", "receptionist"))])
 def list_departments(db: Session = Depends(get_db)):
     return db.query(Department).all()
+
+
+@router.delete("/departments/{department_id}", dependencies=[Depends(require_role("admin"))])
+def delete_department(department_id: int, db: Session = Depends(get_db)):
+    department = db.query(Department).filter(Department.id == department_id).first()
+    if not department:
+        raise HTTPException(status_code=404, detail="Department not found")
+    if department.doctors:
+        raise HTTPException(status_code=400, detail="Reassign or remove the doctors in this department first")
+
+    db.delete(department)
+    db.commit()
+    return {"detail": "Department deleted successfully"}
 
 
 @router.post("/doctors/", response_model=DoctorOut, dependencies=[Depends(require_role("admin"))])
@@ -88,6 +101,23 @@ def delete_doctor(doctor_id: int, db: Session = Depends(get_db)):
     doctor = db.query(Doctor).filter(Doctor.id == doctor_id).first()
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
+    scheduled_appointments = [
+        appointment for appointment in doctor.appointments
+        if appointment.status == AppointmentStatus.scheduled
+    ]
+    if scheduled_appointments:
+        raise HTTPException(
+            status_code=400,
+            detail="This doctor has scheduled appointments. Cancel or reassign them before deleting the doctor profile.",
+        )
+
+    for appointment in doctor.appointments:
+        if appointment.medical_record:
+            db.delete(appointment.medical_record)
+        if appointment.invoice:
+            db.delete(appointment.invoice)
+        db.delete(appointment)
+
     db.delete(doctor)
     db.commit()
     return {"detail": "Doctor deleted successfully"}

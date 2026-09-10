@@ -44,6 +44,19 @@ async function handleLogin(event) {
   }
 }
 
+function setupPasswordToggle(inputId, toggleId) {
+  const passwordInput = document.getElementById(inputId);
+  const toggleButton = document.getElementById(toggleId);
+
+  toggleButton.addEventListener("click", () => {
+    const isVisible = passwordInput.type === "text";
+    passwordInput.type = isVisible ? "password" : "text";
+    toggleButton.setAttribute("aria-label", isVisible ? "Show password" : "Hide password");
+    toggleButton.setAttribute("aria-pressed", String(!isVisible));
+    toggleButton.classList.toggle("is-visible", !isVisible);
+  });
+}
+
 function handleLogout() {
   if (!confirm("Do you want to logout?")) return;
   clearToken();
