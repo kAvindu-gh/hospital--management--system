@@ -7,6 +7,7 @@ from app.routers import auth_routes
 from app.routers import auth_routes, patient_routes
 from app.routers import auth_routes, patient_routes, doctor_routes, appointment_routes
 from app.routers import auth_routes, patient_routes, doctor_routes, appointment_routes, user_routes
+from app.routers import auth_routes, patient_routes, doctor_routes, appointment_routes, user_routes, medical_record_routes
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,6 +26,7 @@ app.include_router(patient_routes.router)
 app.include_router(doctor_routes.router)
 app.include_router(appointment_routes.router)
 app.include_router(user_routes.router)
+app.include_router(medical_record_routes.router)
 
 
 @app.get("/")
