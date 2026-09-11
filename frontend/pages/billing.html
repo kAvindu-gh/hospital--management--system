@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing - HMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">HMS</div>
+      <nav id="sidebar-nav"></nav>
+    </aside>
+    <main class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="back-btn" onclick="history.back()" aria-label="Go back">←</button>
+          <h1>Billing</h1>
+        </div>
+        <div class="user-chip">
+          <span id="user-chip-text">Loading...</span>
+          <button class="btn-secondary" id="logout-btn">Logout</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <span></span>
+        <button class="btn-primary" style="width: auto; margin-top: 0;" onclick="openInvoiceModal()">+ Generate Invoice</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>Patient</th><th>Doctor</th><th>Amount</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="invoices-tbody">
+            <tr><td colspan="6" class="empty-state">Loading invoices...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="invoice-modal">
+    <div class="modal-box">
+      <h2>Generate Invoice</h2>
+      <form id="invoice-form">
+        <div class="field">
+          <label for="appointment_id">Appointment</label>
+          <select id="appointment_id" required></select>
+        </div>
+        <div class="field">
+          <label for="amount">Amount (Rs.)</label>
+          <input type="number" id="amount" step="0.01" min="0" required>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Generate</button>
+          <button type="button" class="btn-secondary" onclick="closeInvoiceModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/billing.js"></script>
+</body>
+</html>
