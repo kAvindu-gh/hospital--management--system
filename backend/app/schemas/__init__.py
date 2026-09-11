@@ -3,3 +3,4 @@ from app.schemas.patient import PatientCreate, PatientUpdate, PatientOut
 from app.schemas.doctor import DepartmentCreate, DepartmentOut, DoctorCreate, DoctorUpdate, DoctorOut
 from app.schemas.appointment import AppointmentCreate, AppointmentUpdate, AppointmentOut
 from app.schemas.medical_record import MedicalRecordCreate, MedicalRecordUpdate, MedicalRecordOut
+from app.schemas.invoice import InvoiceCreate, InvoiceOut
