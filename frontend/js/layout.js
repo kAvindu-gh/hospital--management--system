@@ -4,11 +4,13 @@ const NAV_ITEMS = {
     { href: "patients.html", label: "Patients" },
     { href: "doctors.html", label: "Doctors" },
     { href: "appointments.html", label: "Appointments" },
+    { href: "billing.html", label: "Billing" },
   ],
   receptionist: [
     { href: "index.html", label: "Dashboard" },
     { href: "patients.html", label: "Patients" },
     { href: "appointments.html", label: "Appointments" },
+    { href: "billing.html", label: "Billing" },
   ],
   doctor: [
     { href: "index.html", label: "Dashboard" },

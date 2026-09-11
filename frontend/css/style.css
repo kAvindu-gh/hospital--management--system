@@ -274,3 +274,8 @@ body.center-body::before {
 }
 .history-item-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: #8A94A0; margin-top: 0.4rem; }
 .history-item p:first-child { margin-top: 0; }
+
+/* billing page style */ 
+
+.status-badge.status-unpaid { background: #FFF5BF; color: #6B4F00; }
+.status-badge.status-paid { background: #E4F2EF; color: var(--color-primary); }
