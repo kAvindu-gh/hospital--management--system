@@ -43,6 +43,8 @@ jobs:
       - name: Run tests
         working-directory: backend
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hms_db
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          database_url: postgresql://postgres:postgres@localhost:5432/hms_db
+          secret_key: ${{ secrets.SECRET_KEY }}
+          algorithm: HS256
+          access_token_expire_minutes: "480"
         run: pytest -v
