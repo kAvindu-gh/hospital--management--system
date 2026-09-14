@@ -33,6 +33,26 @@ HMS centralizes patient registration, doctor and department management, appointm
 | Electronic Medical Records | Doctors record diagnosis, prescription, and notes per appointment; full patient history view |
 | Billing | Generate invoices per appointment and mark them as paid |
 
+## Screenshots
+
+**Login**
+![Login](docs/screenshots/Login_Page.png)
+
+**Register**
+![Register](docs/screenshots/Register_Page.png)
+
+**Patients**
+![Patients](docs/screenshots/Patients_Screen.png)
+
+**Appointments**
+![Appointments](docs/screenshots/Appointments_Page.png)
+
+**Doctors Registration**
+![Medical Record](docs/screenshots/Doctors_Page.png)
+
+**Billing**
+![Billing](docs/screenshots/Billing_Page.png)
+
 ## Project Structure
 
 ```
